@@ -6,28 +6,31 @@ const h = React.createElement
 
 // Browser only component
 module.exports = style => Component => {
-  const rule = sx(style)
+  const base = sx(style)
 
   class SuperComponent extends React.Component {
     constructor (props) {
       super(props)
 
-      if (props.css) {
-        rule.set(css)
-      }
+      this.rule = sx(props.css)
     }
 
     componentWillReceiveProps (next) {
       if (next.css !== this.props.css) {
-        rule.set(next.css)
+        this.rule.set(next.css)
       }
     }
 
     render () {
-      const className = classnames(this.props.className, rule.className)
+      const { css, ...props } = this.props
+      const className = classnames(
+        props.className,
+        base.className,
+        this.rule.className
+      )
 
       return h(Component, {
-        ...this.props,
+        ...props,
         className
       })
     }

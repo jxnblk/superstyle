@@ -1,5 +1,5 @@
 
-const isObj = o => 0 !== null && typeof o === 'object' && !Array.isArray(o)
+const isObj = o => o !== null && typeof o === 'object' && !Array.isArray(o)
 
 const hyphenate = str => str
   .replace(/[A-Z]|^ms/g, '-$&')

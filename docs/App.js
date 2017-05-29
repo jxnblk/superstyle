@@ -1,23 +1,23 @@
 import React from 'react'
-import sx, { sheet } from 'superstyle'
+import sx from 'superstyle'
 import hello from 'hello-color'
+import PropTypes from 'prop-types'
 import colors from './colors'
-import { dec, inc } from './updaters'
+import Header from './Header'
+import CSS from './CSS'
 
-const backgroundColor = colors[0]
+const backgroundColor = colors[10][4]
 const color = hello(backgroundColor).color
 
 const base = sx({
-  padding: 32,
-  color,
-  backgroundColor,
+  '--text': color,
+  '--color-b': backgroundColor,
+  color: 'var(--color-b)',
+  // backgroundColor,
   transitionProperty: 'color, background-color',
   transitionDuration: '.4s',
-  transitionTimingFunction: 'ease-out'
-})
+  transitionTimingFunction: 'ease-out',
 
-const pre = sx({
-  whiteSpace: 'pre-wrap'
 })
 
 export default class App extends React.Component {
@@ -28,35 +28,54 @@ export default class App extends React.Component {
 
   update = fn => this.setState(fn)
 
+  static childContextTypes = {
+    update: PropTypes.func
+  }
+
+  getChildContext () {
+    return {
+      update: this.update
+    }
+  }
+
   componentDidUpdate (last, state) {
     if (state !== this.state) {
       const { backgroundColor } = this.state
       const color = hello(backgroundColor).color
 
       base.set({
-        color,
-        backgroundColor
+        '--text': color,
+        '--color-b': backgroundColor,
+        // color,
+        // backgroundColor
       })
     }
   }
 
   render () {
-    const css = sx.sheet.css
+    const { count } = this.state
+    const color = colors[Math.abs(count) % colors.length]
+    const props = {
+      ...this.props,
+      ...this.state,
+      color,
+    }
+
+    console.log(base.refs)
+    base.set({
+      // testing
+      ':focus': {
+        backgroundColor: 'tomato',
+        ':hover': {
+          backgroundColor: 'green',
+        }
+      }
+    })
 
     return (
       <div className={base.className}>
-        <h1>Superstyle</h1>
-        <p>CSSOM CSS-in-JS library</p>
-        <button
-          onClick={e => this.update(dec)}
-          children='-'
-        />
-        <button
-          onClick={e => this.update(inc)}
-          children='+'
-        />
-        <h2>CSS</h2>
-        <pre className={pre.className}>{css}</pre>
+        <Header {...props} />
+        <CSS />
       </div>
     )
   }

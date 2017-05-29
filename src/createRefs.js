@@ -16,6 +16,7 @@ module.exports = rules => {
       last = last[k]
     })
 
+    last.keys = rule.keys
     last.index = index
   })
 

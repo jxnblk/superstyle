@@ -61,23 +61,60 @@ test('toArray hyphenates camelCase keys', t => {
   t.is(dec.key, 'font-size')
 })
 
-test.todo('toCSS converts style arrays to CSS rules')
-test.todo('createRefs creates a refs object')
+test('toCSS converts style arrays to CSS rules', t => {
+  const css = toCSS('.hello', [
+    {
+      keys: [],
+      declarations: [
+        { key: 'margin', value: 0 }
+      ]
+    }
+  ])
+  t.true(Array.isArray(css))
+  t.is(css[0], '.hello{margin:0}')
+})
 
-test.todo('util.isObj tests objects')
-test.todo('util.hyphenate hyphenates camelCased strings')
-test.todo('util.px add px unit to numbers')
+test('createRefs creates a refs object', t => {
+  const refs = createRefs([
+    { keys: [], declarations: [] },
+    { keys: [ ':hover' ], declarations: [] },
+  ])
+  t.is(typeof refs, 'object')
+  t.is(refs.index, 0)
+  t.is(refs[':hover'].index, 1)
+})
+
+test('util.isObj tests objects', t => {
+  t.true(util.isObj({}))
+  t.false(util.isObj(null))
+  t.false(util.isObj([ 1 ]))
+  t.false(util.isObj(1))
+  t.false(util.isObj('string'))
+})
+
+test('util.hyphenate hyphenates camelCased strings', t => {
+  t.is(util.hyphenate('camelCaseString'), 'camel-case-string')
+  t.is(util.hyphenate('WebkitDisplay'), '-webkit-display')
+  t.is(util.hyphenate('msDisplay'), '-ms-display')
+})
+
+test('util.px add px unit to numbers', t => {
+  t.is(util.px('fontSize')(16), '16px')
+  t.is(util.px('fontSize')(0), 0)
+  t.is(util.px('lineHeight')(1.5), 1.5)
+  t.is(util.px('display')('block'), 'block')
+})
 
 test('superstyle returns an object', t => {
   const rule = sx({ color: 'tomato' })
   t.is(typeof rule, 'object')
 })
 
-test('superstyle rule has id, className, refs, rules, and css properties', t => {
+test('superstyle rule has id, className, _refs, rules, and css properties', t => {
   const rule = sx({ color: 'tomato' })
   t.is(typeof rule.id, 'string')
   t.is(typeof rule.className, 'string')
-  t.is(typeof rule.refs, 'object')
+  t.is(typeof rule._refs, 'object')
   t.true(Array.isArray(rule.rules))
   t.true(Array.isArray(rule.css))
 })
@@ -87,9 +124,21 @@ test('superstyle adds css to sheet', t => {
   t.is(sheet.css, '._0 {color: tomato;}')
 })
 
-test('superstyle.set() method changes the stylesheet rule while keeping the selectro', t => {
+test('rule.set() method changes the stylesheet rule while keeping the selector', t => {
   const rule = sx({ color: 'tomato' })
   rule.set({ color: 'green' })
   t.is(sheet.css, '._0 {color: green;}')
 })
+
+test('rule.set() adds new rules and refs', t => {
+  const rule = sx({ color: 'tomato' })
+  rule.set({
+    ':hover': {
+      color: 'green'
+    }
+  })
+  t.regex(sheet.css, /:hover/)
+  t.regex(sheet.css, /color: green/)
+})
+
 

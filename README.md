@@ -4,7 +4,7 @@
 CSSOM-based CSS-in-JS library
 
 - Browser-only
-- Updates styles
+- Updates CSS rules in the stylesheet without changing the className
 
 ```sh
 npm i superstyle
