@@ -1,6 +1,6 @@
 {
   "name": "superstyle",
-  "version": "1.0.0-0",
+  "version": "1.0.0-1",
   "description": "Experimental CSS-in-JS library based on the CSS Object Model",
   "main": "dist/index.js",
   "scripts": {
