@@ -22,7 +22,10 @@ const angle = n => (n % 12) * 30
 
 const Header = (props, context) => (
   <Banner css={{ backgroundImage: gradient(-60, 'transparent', 'var(--alpha)') }}
-    onClick={e => context.update(inc)}>
+    onClick={e => {
+      props.stop()
+      context.update(inc)
+    }}>
     <Container>
       <Flex css={{ minHeight: '70vh', alignItems: 'center' }}>
         <Box py4 css={{ mixBlendMode: 'multiply', color: 'var(--beta)'

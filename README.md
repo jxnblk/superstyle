@@ -13,12 +13,14 @@ Using plain JavaScript objects to author styles, superstyle
 helps promote style encapsulation while making use of native
 browser CSS APIs.
 
+[View Demo](http://jxnblk.com/superstyle)
+
 ```js
 // Usage
-import sx from 'superstyle'
+import superstyle from 'superstyle'
 
 // create a superstyle rule object
-const rule = sx({ color: 'blue' })
+const rule = superstyle({ color: 'blue' })
 
 const h1 = document.getElementById('h1')
 
@@ -32,7 +34,7 @@ rule.set({ color: 'tomato' })
 Superstyle also supports nested objects for pseudoselectors and media queries
 
 ```js
-const rule = sx({
+const rule = superstyle({
   color: 'tomato',
   ':hover': {
     color: 'plum'
@@ -103,7 +105,7 @@ rule.set({ color: 'magenta' })
 
 #### `rule.css`
 
-(getter) string of CSS for the rule
+(getter) returns an array of CSS strings for the rule
 
 
 ### React higher-order component

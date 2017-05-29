@@ -17,7 +17,6 @@ const beta = hello(alpha).color
 const base = sx({
   '--alpha': alpha,
   '--beta': beta,
-  // color: 'var(--beta)',
   transitionProperty: 'color',
   transitionDuration: '.4s',
   transitionTimingFunction: 'ease-out',
