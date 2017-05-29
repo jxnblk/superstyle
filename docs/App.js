@@ -4,29 +4,48 @@ import hello from 'hello-color'
 import PropTypes from 'prop-types'
 import colors from './colors'
 import Header from './Header'
+import About from './About'
+import Usage from './Usage'
+import ReactDemo from './ReactDemo'
 import CSS from './CSS'
+import Footer from './Footer'
+import { inc } from './updaters'
 
-const backgroundColor = colors[10][4]
-const color = hello(backgroundColor).color
+const alpha = colors[2][4]
+const beta = hello(alpha).color
 
 const base = sx({
-  '--text': color,
-  '--color-b': backgroundColor,
-  color: 'var(--color-b)',
-  // backgroundColor,
-  transitionProperty: 'color, background-color',
+  '--alpha': alpha,
+  '--beta': beta,
+  // color: 'var(--beta)',
+  transitionProperty: 'color',
   transitionDuration: '.4s',
   transitionTimingFunction: 'ease-out',
-
 })
 
 export default class App extends React.Component {
   state = {
-    backgroundColor,
+    alpha,
     count: 0
   }
 
   update = fn => this.setState(fn)
+
+  updateColors = () => {
+    const { alpha } = this.state
+    const beta = hello(alpha).color
+
+    base.set({
+      '--alpha': alpha,
+      '--beta': beta,
+    })
+  }
+
+  stop = () => {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
+  }
 
   static childContextTypes = {
     update: PropTypes.func
@@ -38,17 +57,15 @@ export default class App extends React.Component {
     }
   }
 
-  componentDidUpdate (last, state) {
-    if (state !== this.state) {
-      const { backgroundColor } = this.state
-      const color = hello(backgroundColor).color
+  componentDidMount () {
+    this.timer = setInterval(() => {
+      this.update(inc)
+    }, 3000)
+  }
 
-      base.set({
-        '--text': color,
-        '--color-b': backgroundColor,
-        // color,
-        // backgroundColor
-      })
+  componentDidUpdate (last, state) {
+    if (state.count !== this.state.count) {
+      this.updateColors()
     }
   }
 
@@ -59,23 +76,17 @@ export default class App extends React.Component {
       ...this.props,
       ...this.state,
       color,
+      stop: this.stop
     }
-
-    console.log(base.refs)
-    base.set({
-      // testing
-      ':focus': {
-        backgroundColor: 'tomato',
-        ':hover': {
-          backgroundColor: 'green',
-        }
-      }
-    })
 
     return (
       <div className={base.className}>
         <Header {...props} />
-        <CSS />
+        <About {...props} />
+        <Usage {...props} />
+        <ReactDemo {...props} />
+        <CSS {...props} />
+        <Footer {...props} />
       </div>
     )
   }

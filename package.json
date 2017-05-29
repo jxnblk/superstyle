@@ -30,6 +30,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "browser-env": "^2.0.31",
     "hello-color": "^1.0.1",
+    "js-beautify": "^1.6.14",
     "palx": "^1.0.2",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",

@@ -18,6 +18,7 @@ const superstyle = (style = {}) => {
 
   rule.rules = sheet.insert(css)
 
+  // Add tests
   const addNewRules = (nextStyle, keys) => {
     const nextStyles = toArray(nextStyle)
       .map(s => Object.assign(s, { keys: [ ...s.keys, ...keys ] }))
@@ -46,15 +47,18 @@ const superstyle = (style = {}) => {
 
       const { style } = rule.rules[ref.index]
 
-      // ugh
-      // potential browser bug?
+      // ugh - potential browser bug?
       if (/^\-\-/.test(key)) {
-        // custom properties - this method doesn't seem to work
-        // with linear-gradient values
+        // custom properties - this method doesn't seem to work with linear-gradient values
         style.setProperty(key, val)
       } else {
         style[key] = val
       }
+
+      /*
+      style[key] = val
+      style.setProperty(key, val)
+      */
     }
   }
 
