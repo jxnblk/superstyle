@@ -1,0 +1,41 @@
+{
+  "name": "superstyle",
+  "version": "1.0.0-0",
+  "description": "Experimental CSS-in-JS library based on the CSS Object Model",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublish": "babel src -d dist",
+    "start": "webpack-dev-server",
+    "docs": "webpack",
+    "test": "ava"
+  },
+  "keywords": [
+    "css-in-js",
+    "cssom",
+    "style",
+    "css",
+    "react",
+    "react-component",
+    "hoc"
+  ],
+  "author": "Brent Jackson",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "browser-env": "^2.0.31",
+    "hello-color": "^1.0.1",
+    "palx": "^1.0.2",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5"
+  }
+}
